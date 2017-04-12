@@ -1,5 +1,5 @@
-# Automatic-recruitment-asystem
-It is aimed for big organizations that get tons of job applications daily and dont even meet the job description.
+# Automatic-recruitment-system
+This system is aimed for big organizations that get tons of job applications daily and dont even meet the job description.
 
 This is a complete recruitment system. It takes your email id and password as input and searches for all the unseen emails with subject "resume"(any keyword can be used. for ex: job,cv. It can also take date or search before kind of parameters.). Next it asks for keywords to search in the resume(skillset).
 
