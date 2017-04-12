@@ -140,23 +140,6 @@ def saveInXl():
 		sheet_row+=1
 
 
-
-	'''
-	for i in range(2,10):
-		for j in range(1,6):
-			if j==4:
-				temp=' '
-				for k in results[3]:
-					temp+= k+','
-				temp=temp[:(len(temp)-1)]
-				sheet.cell(row=i,column=j).value=temp
-			else:
-				sheet.cell(row=i,column=j).value=results[j-1]
-		if i%2==0:
-			sheet.cell(row=i,column=6).value='yes'
-		else:
-			sheet.cell(row=i,column=6).value='no'
-	'''
 	sheet.column_dimensions['A'].width = 30
 	sheet.column_dimensions['B'].width = 40
 	sheet.column_dimensions['C'].width = 40
