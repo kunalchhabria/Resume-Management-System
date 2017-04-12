@@ -1,6 +1,5 @@
 import openpyxl,smtplib,sys,imaplib,pyzmail,email,pprint,os,re,PyPDF2,docx
-pat = re.compile(r'\s+')
-pat1=re.compile(r'\n+')
+
 received_from_data={}
 #received_from_data[id]=[id,name,date,filepath,number,decision]
 print(' checking emails  with subject \'RESUME \' and are unread.. \n enter email id where the applicants have sent resumes')
