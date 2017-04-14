@@ -1,6 +1,18 @@
-import openpyxl,smtplib,sys,imaplib,pyzmail,email,pprint,os,re,PyPDF2,docx
-
+import openpyxl,smtplib,sys,imaplib,pyzmail,email,pprint,os,re,PyPDF2,docx,datetime
+pat = re.compile(r'\s+')
+pat1=re.compile(r'\n+')
 received_from_data={}
+
+detach_dir = 'resumes-and-candidate-data\\'
+now_time=str(datetime.datetime.now())
+micro_second_index=now_time.index('.')
+now_time=now_time[:micro_second_index]
+detach_dir=detach_dir+now_time
+detach_dir=detach_dir.replace(' ',',')
+detach_dir=detach_dir.replace(':','-')
+if not os.path.exists(detach_dir):
+	os.makedirs(detach_dir)
+
 #received_from_data[id]=[id,name,date,filepath,number,decision]
 print(' checking emails  with subject \'RESUME \' and are unread.. \n enter email id where the applicants have sent resumes')
 receiveId=input()
@@ -10,57 +22,70 @@ receivePass=input()
 print('Specify the skills you are looking for in resumes. Enter all the skill seperated by spaces. \nexample: python django java')
 skillset=input().split(' ')
 print('\n'*1000)
+print(detach_dir)
 def inboxSearch():
     print('Searching for the resumes...\n\n')
-    detach_dir = 'c:/python36/pyt/mails'
+    
     m = imaplib.IMAP4_SSL("imap.gmail.com")
     
-    
+    '''if not os.path.exists(directory):
+    os.makedirs(directory)
+    '''
     m.login(receiveId,receivePass)
     m.select("inbox")
 
+    
+    #print(resp,items)
+
     resp, items = m.search(None,'(SUBJECT "resume")',)
     items = items[0].split()
-    #print(resp,items)
-    print(len(items))
-    for emailid in items:
-        resp, data = m.fetch(emailid, "(RFC822)") 
-        email_body = data[0][1] 
-        mail = email.message_from_bytes(email_body) 
-        temp = m.store(emailid,'+FLAGS', '\\Seen')
-        m.expunge()
+    #print(items,len(items))
 
-        if mail.get_content_maintype() != 'multipart':
-            continue
+    while(len(items)>0):
+	    try:
+	        emailid=items[len(items)-1]
+	        resp, data = m.fetch(emailid, "(RFC822)") 
+	        
+	        email_body = data[0][1]
+	        email_body=email_body.decode('utf-8')
+	        mail = email.message_from_string(email_body) 
+	        temp = m.store(emailid,'+FLAGS', '\\Seen')
+	        m.expunge()
+	        removed=items.pop()
 
-        received_from=mail["From"]
-        email_start_index=received_from.index('<')+1
-        email_end_index=received_from.index('>')
-        received_from_emailid=received_from[email_start_index:email_end_index]
-        received_from_name=received_from[:email_start_index-1]
-        received_from_date=mail["Date"]
-        
-        print ("["+mail["From"]+"] :" + mail["Subject"])
+	        if mail.get_content_maintype() != 'multipart':
+	            continue
 
-        for part in mail.walk():
-            if part.get_content_maintype() == 'multipart':
-                continue
-            if part.get('Content-Disposition') is None:
-                continue
-            if part.get_filename().endswith('.pdf'):
-                file_type='.pdf'
-            if part.get_filename().endswith('.docx'):
-                file_type='.docx'
-            
-            filename = received_from_emailid+file_type
-            att_path = os.path.join(detach_dir, filename)
+	        received_from=mail["From"]
+	        email_start_index=received_from.index('<')+1
+	        email_end_index=received_from.index('>')
+	        received_from_emailid=received_from[email_start_index:email_end_index]
+	        received_from_name=received_from[:email_start_index-1]
+	        received_from_date=mail["Date"]
+	        
+	        print ("["+mail["From"]+"] :" + mail["Subject"])
 
-            if not os.path.isfile(att_path) :
-                fp = open(att_path, 'wb')
-                fp.write(part.get_payload(decode=True))
-                fp.close()
-                received_from_data[received_from_emailid]=[received_from_emailid,received_from_name,received_from_date,att_path]
-    print(received_from_data)
+	        for part in mail.walk():
+	            if part.get_content_maintype() == 'multipart':
+	                continue
+	            if part.get('Content-Disposition') is None:
+	                continue
+	            if part.get_filename().endswith('.pdf'):
+	                file_type='.pdf'
+	            if part.get_filename().endswith('.docx'):
+	                file_type='.docx'
+	            
+	            filename = received_from_emailid+file_type
+	            att_path = os.path.join(detach_dir, filename)
+
+	            if not os.path.isfile(att_path) :
+	                fp = open(att_path, 'wb')
+	                fp.write(part.get_payload(decode=True))
+	                fp.close()
+	                received_from_data[received_from_emailid]=[received_from_emailid,received_from_name,received_from_date,att_path]
+	    except:
+	    	asdf=1 #do nothing
+    #print(received_from_data)
     print ('Finished downloading resumes.\n\n')
 
 def extractText():
@@ -111,7 +136,7 @@ def extractText():
 			received_from_data[downloaded_resume].append('Yes')
 		else:
 			received_from_data[downloaded_resume].append('No')
-	print(received_from_data)
+	#print(received_from_data)
 	print('Finished scanning all the resumes.\n\n')
 
 
@@ -144,7 +169,7 @@ def saveInXl():
 	sheet.column_dimensions['C'].width = 40
 	sheet.column_dimensions['D'].width = 40
 	sheet.column_dimensions['E'].width = 20
-	wb.save('resume.xlsx')
+	wb.save(detach_dir+ '\\candidate_data.xlsx')
 	print("Finished saving data in excel sheet.\n\n")
 
 
@@ -158,7 +183,7 @@ def sendmail():
 	#print('enter password')
 	password=receivePass
 	smtpObj.login(useremail,password)
-	wb=openpyxl.load_workbook('resume.xlsx')
+	wb=openpyxl.load_workbook(detach_dir+ '\\candidate_data.xlsx')
 	sheet=wb.get_sheet_by_name('resumes')
 	lastCol=5
 
@@ -186,3 +211,4 @@ inboxSearch()
 extractText()
 saveInXl()
 sendmail()
+input()
