@@ -1,4 +1,4 @@
-# PYTHON-Automatic-recruitment-system
+# PYTHON-Automated-recruitment-system
 This system is aimed for big organizations that get tons of job applications daily whcih don't even meet the job description.
 
 This is a complete recruitment system. It takes the company's email id and password as input and searches for all the unseen emails with subject "resume"(any keyword can be used. for ex: job,cv. It can also take date or search before kind of parameters.). Next it asks for keywords to search in the resume(skillset).
