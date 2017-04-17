@@ -27,17 +27,12 @@ def inboxSearch():
     print('Searching for the resumes...\n\n')
     
     m = imaplib.IMAP4_SSL("imap.gmail.com")
-    
-    '''if not os.path.exists(directory):
-    os.makedirs(directory)
-    '''
     m.login(receiveId,receivePass)
     m.select("inbox")
 
-    
     #print(resp,items)
 
-    resp, items = m.search(None,'(SUBJECT "resume")',)
+    resp, items = m.search(None,'(UNSEEN SUBJECT "resume")',)
     items = items[0].split()
     #print(items,len(items))
 
