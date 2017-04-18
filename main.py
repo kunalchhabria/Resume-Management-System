@@ -27,9 +27,14 @@ def inboxSearch():
     print('Searching for the resumes...\n\n')
     
     m = imaplib.IMAP4_SSL("imap.gmail.com")
+    
+    '''if not os.path.exists(directory):
+    os.makedirs(directory)
+    '''
     m.login(receiveId,receivePass)
     m.select("inbox")
 
+    
     #print(resp,items)
 
     resp, items = m.search(None,'(UNSEEN SUBJECT "resume")',)
@@ -108,13 +113,15 @@ def extractText():
 		if received_from_data[downloaded_resume][3].endswith('.docx'):
 			path=received_from_data[downloaded_resume][3]
 			doc = docx.Document(path)
-			content=''
+			content=[]
 			for para in doc.paragraphs:
 				content.append(para.text)
-			content==''.join(para.text)
+			content=''.join(para.text)
 			content=pat.sub('',content)
 			content=pat1.sub('',content)
 
+		content=content.lower()
+		#print('length ',len(content))
 		phones_numbers1=pat2.findall(content)
 		phones_numbers2=pat3.findall(content)
 		phones_numbers_all=','.join(phones_numbers1) + ','.join(phones_numbers2)			
