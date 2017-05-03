@@ -11,7 +11,9 @@ The email id , name , phone number, date will be put in an excel sheet with a de
 
 The candidates will be sent an automated reply based on the decision in excel sheet.
 
-Every time the program is run a new directory is created named as current date-time and all the resumes as well as the excel sheet are put in that directory.This is done because each time a resume is downloaded from email its status is changed from seen to unseen and all this resumes are put in the specific date-time folder and this avoids duplication.
+Every time the program is run a new directory is created named as current date-time in the directory resumes-and-candidate-data and all the resumes as well as the excel sheet it put in that directory.This is done because each time a resume is downloaded from email its status is changed from seen to unseen and all this resumes are put in the specific date-time folder and this avoids duplication.
 
 This program can run as a simple python script.Before running the program go to 
 gmail->my account->sign in and scurity->connected apps and site. Set allow less secure apps to ON.
+
+You will manually have to create a directory 'resumes-and-candidate-data' in the directory where the program is saved.
