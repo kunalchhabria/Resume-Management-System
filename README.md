@@ -17,3 +17,6 @@ This program can run as a simple python script.Before running the program go to
 gmail->my account->sign in and scurity->connected apps and site. Set allow less secure apps to ON.
 
 You will manually have to create a directory 'resumes-and-candidate-data' in the directory where the program is saved.
+Some snapshots:
+
+ 
