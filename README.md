@@ -10,7 +10,7 @@ It will download the attachments for emails with subject resume in a specified f
 
 The resumes will then be scanned to look for the specified skillset.(it can be modified for different uses.)How to evaluate resume varies for different organizations.
 
-The email id , name , phone number, date will be put in an excel sheet with a decision 'yes' or 'no' against them.
+The system will put email id , name , phone number, date  in an excel sheet with a decision 'yes' or 'no' against them.
 As for the decision column, the program asks for the keywords to look for in the resume and if all the keywords are present the decision will be yes else no. 
 The candidates will be sent an automated reply based on the decision in excel sheet.
 
@@ -34,7 +34,7 @@ Some snapshots:
  
 ![Alt text](https://github.com/kunalchhabria/PYTHON-Automated-recruitment-system/blob/master/python%20auto%20recruitment%20pics/3.png "3") 
 
-4) This is what the excel sheet looks like.
+4) This is a sample of the excel sheet that the system will create.
  
 ![Alt text](https://github.com/kunalchhabria/PYTHON-Automated-recruitment-system/blob/master/python%20auto%20recruitment%20pics/4.png "4")
 
