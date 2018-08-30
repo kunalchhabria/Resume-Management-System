@@ -1,4 +1,4 @@
-# PYTHON-Automated-recruitment-system
+# PYTHON-Resume-Management-System
 This project can potentially be used as a resume management tool. It can maintain records of the resumes, applicants email id, etc.
 
 It takes the company's email id and password as input and searches for all the unseen emails with subject "resume"(any keyword can be used. for ex: job,cv. It can also take date or search before kind of parameters.). Next it asks for keywords to search in the resume(skillset).
